@@ -18,13 +18,29 @@ import LaunchIcon from "@mui/icons-material/Launch";
 import StarsIcon from "@mui/icons-material/Stars";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Typography from "@mui/material/Typography";
+import Image from "next/image";
 
+
+
+export default function DashboardSidebar() {
+const pathname = usePathname();
 const navigation = [
   {
     label: "Dashboard",
     href: "/",
     icon: <DashboardIcon />,
   },
+  // if current page is rc/[rcid ] then only show below
+  
+ ...(pathname.match(/^\/rc\/[^/]+$/)
+    ? [
+        {
+          label: "Master Magic Sheet",
+          href: `${pathname}/magicsheet`,
+          icon: <DashboardIcon />,
+        },
+      ]
+    : []),
   {
     label: "RAS Portal",
     href: "https://placement.iitk.ac.in",
@@ -32,18 +48,15 @@ const navigation = [
     external: true,
   },
 ];
-
+// primary.dark
 const account = [
- 
+
   {
     label: "Credits",
     href: "/credits",
     icon: <StarsIcon />,
   },
 ];
-
-export default function DashboardSidebar() {
-  const pathname = usePathname();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -58,15 +71,23 @@ export default function DashboardSidebar() {
         borderRight: "1px solid #e5e7eb",
         display: "flex",
         flexDirection: "column",
-        bgcolor: "background.paper",
+        bgcolor: "primary.dark",
       }}
     >
-        <Box sx={{ height: "13vh" }} />
+      <Box sx={{ height: "4vh" }} />
+
+          <Image
+            src="/dashboard_logo.png"
+            alt="logo"
+            width={245}
+            height={60}
+          />
+       
       {/* Profile Card */}
-      <Box   sx={{
-    p: 3,
-  }}>
-    
+      <Box sx={{
+        p: 3,
+      }}>
+
         <Box
           sx={{
             display: "flex",
@@ -74,20 +95,20 @@ export default function DashboardSidebar() {
             alignItems: "center",
           }}
         >
-            
-            
+
+
           <Avatar sx={{ width: 48, height: 48 }}>
             M
           </Avatar>
 
           <Box>
-         <Typography
-  variant="body2"
-  color="text.secondary"
-  sx={{ mt: 1 }}
->
-  Muragesh
-</Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ mt: 1 }}
+            >
+              Muragesh
+            </Typography>
 
             <Typography
               variant="body2"
@@ -110,8 +131,16 @@ export default function DashboardSidebar() {
               component="a"
               href={item.href}
               target="_blank"
+              sx={{
+                color: "white",
+                borderRadius: 2,
+                mb: 0.5,
+              }}
             >
-              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemIcon sx={{
+                color: "white",
+                minWidth: 40,
+              }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.label} />
             </ListItemButton>
           ) : (
@@ -121,11 +150,15 @@ export default function DashboardSidebar() {
               href={item.href}
               selected={pathname === item.href}
               sx={{
+                color: "white",
                 borderRadius: 2,
                 mb: 0.5,
               }}
             >
-              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemIcon sx={{
+                color: "white",
+                minWidth: 40,
+              }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.label} />
             </ListItemButton>
           )
@@ -135,11 +168,11 @@ export default function DashboardSidebar() {
       <Divider />
 
       {/* Push Bottom */}
-      <Box   sx={{
-    display: "flex",
+      <Box sx={{
+        display: "flex",
 
-   
-  }}/>
+
+      }} />
 
       {/* Account Section */}
       <List sx={{ px: 1 }}>
@@ -150,11 +183,15 @@ export default function DashboardSidebar() {
             href={item.href}
             selected={pathname === item.href}
             sx={{
+              color: "white",
               borderRadius: 2,
               mb: 0.5,
             }}
           >
-            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemIcon sx={{
+              color: "white",
+              minWidth: 40,
+            }}>{item.icon}</ListItemIcon>
             <ListItemText primary={item.label} />
           </ListItemButton>
         ))}
@@ -162,13 +199,19 @@ export default function DashboardSidebar() {
         <ListItemButton
           onClick={handleLogout}
           sx={{
+            color: "white",
             borderRadius: 2,
-            mb: 2,
-            color: "error.main",
+            mb: 0.5,
           }}
         >
-          <ListItemIcon>
-            <LogoutIcon color="error" />
+          <ListItemIcon sx={{
+            color: "white",
+            minWidth: 40,
+          }}>
+            <LogoutIcon  sx={{
+    color: "white",
+    minWidth: 40,
+  }}/>
           </ListItemIcon>
 
           <ListItemText primary="Logout" />

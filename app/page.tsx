@@ -4,7 +4,12 @@ import { Chip, Paper, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import InputAdornment from "@mui/material/InputAdornment";
-const rows = [
+import { useRouter } from "next/navigation";
+
+
+export default function RCPage() {
+  const router = useRouter();
+  const rows = [
   {
     id: 16,
     name: "Placement Phase 2",
@@ -85,21 +90,23 @@ const columns: GridColDef[] = [
       <Chip
         label={params.value ? "ACTIVE" : "INACTIVE"}
         color={params.value ? "success" : "error"}
+        onClick={() => {router.push(`/rc/${params.row.id}`)}}
         size="small"
       />
     ),
   },
 ];
 
-export default function RCPage() {
   return (
 
     <div className="p-6 md:p-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Dashboard</h1>
+     
       
       </div>
 
+           <h2 className="text-2xl font-bold">Recruitment Cycles</h2>
       <Paper className="p-4">
         <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
      <TextField

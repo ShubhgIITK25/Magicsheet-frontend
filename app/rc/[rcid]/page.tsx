@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   Box,
   Button,
@@ -27,7 +27,7 @@ type Proforma = {
 
 export default function RCDetailsPage() {
   const router = useRouter();
-  const params = useParams();
+  // const params = useParams();
 
   const rows: Proforma[] = [
     {
@@ -174,19 +174,12 @@ export default function RCDetailsPage() {
     <div className="min-h-screen bg-slate-50 p-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8">
-          <p className="text-sm text-slate-500 mb-2">
-            Recruitment Cycles / {params.id}
-          </p>
-
-          <h1 className="text-4xl font-bold">
+              <h1 className="text-4xl font-bold">
             Intern 2026-27 Phase 1
           </h1>
 
-          <p className="mt-2 text-slate-500">
-            Proforma Management
-          </p>
         </div>
-
+<h2 className="text-2xl font-bold">Proforma</h2>
         <Paper
           elevation={0}
           sx={{
