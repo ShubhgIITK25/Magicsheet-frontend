@@ -26,13 +26,13 @@ export default function DashboardShell({
     <>
       <IconButton
         onClick={toggleDrawer}
-        sx={{
-          position: "fixed",
-          top: 16,
-          left: 16,
-          zIndex: 1300,
-        }}
-      >
+          sx={{
+            position: "absolute",
+            top: 16,
+            left: 16,
+            zIndex: 10,
+          }}
+        >
         <MenuIcon />
       </IconButton>
 

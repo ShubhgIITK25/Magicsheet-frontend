@@ -145,15 +145,11 @@ export default function MagicSheetPage() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-10">
           <h1 className="text-4xl font-bold">
-            Internship 2024-25 P1
+            Master Magic Sheet
           </h1>
         </div>
 
-        <div className="mb-6">
-          <h2 className="text-2xl font-semibold">
-            Magic Sheet
-          </h2>
-        </div>
+      
 
         <Paper
           elevation={0}
@@ -166,11 +162,9 @@ export default function MagicSheetPage() {
          
 
           <div className="p-6">
-            <h3 className="mb-6 text-2xl font-semibold">
-            Master Magicsheet
-            </h3>
+         
 
-            <div className="mb-4 flex justify-end">
+            <div className="mb-4 flex justify-start">
               <TextField
                 size="small"
                 placeholder="Search..."

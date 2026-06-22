@@ -12,7 +12,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-
+import AddIcon from "@mui/icons-material/Add";
 
 const rows = [
   {
@@ -144,16 +144,14 @@ export default function MagicSheetPage() {
     <div className="min-h-screen bg-slate-50 p-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-10">
-          <h1 className="text-4xl font-bold">
-            Internship 2024-25 P1
+         <h1 className="text-3xl font-semibold">
+            Company Magic Sheet
           </h1>
+  
         </div>
 
-        <div className="mb-6">
-          <h2 className="text-2xl font-semibold">
-            Magic Sheet
-          </h2>
-        </div>
+   
+         
 
         <Paper
           elevation={0}
@@ -166,11 +164,9 @@ export default function MagicSheetPage() {
          
 
           <div className="p-6">
-            <h3 className="mb-6 text-2xl font-semibold">
-            company name
-            </h3>
+           
 
-            <div className="mb-4 flex justify-end">
+            <div className="mb-4 flex justify-between">
               <TextField
                 size="small"
                 placeholder="Search..."
@@ -189,6 +185,14 @@ export default function MagicSheetPage() {
                   },
                 }}
               />
+              <div>
+            <IconButton color="primary">
+            <AddIcon />
+          </IconButton>
+            <IconButton color="primary">
+            <AddIcon />
+          </IconButton>
+          </div>
             </div>
 
             <Box sx={{ width: "100%" }}>
