@@ -1,16 +1,23 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Box,
   Button,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
   InputAdornment,
   Paper,
   TextField,
   Tooltip,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import AddIcon from "@mui/icons-material/Add";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 type Proforma = {
@@ -27,7 +34,9 @@ type Proforma = {
 
 export default function RCDetailsPage() {
   const router = useRouter();
-  // const params = useParams();
+  const [addOpen, setAddOpen] = useState(false);
+  const [companyName, setCompanyName] = useState("");
+  const [role, setRole] = useState("");
 
   const rows: Proforma[] = [
     {
@@ -203,6 +212,9 @@ export default function RCDetailsPage() {
                 },
               }}
             />
+            <IconButton color="primary" onClick={() => setAddOpen(true)}>
+              <AddIcon />
+            </IconButton>
           </div>
 
           <Box sx={{ width: "100%" }}>
@@ -239,6 +251,30 @@ export default function RCDetailsPage() {
           </Box>
         </Paper>
       </div>
+
+      <Dialog open={addOpen} onClose={() => setAddOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Add New Magic Sheet</DialogTitle>
+        <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, pt: "16px !important" }}>
+          <TextField
+            label="Company Name"
+            required
+            value={companyName}
+            onChange={(e) => setCompanyName(e.target.value)}
+            fullWidth
+          />
+          <TextField
+            label="Role"
+            required
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => { setAddOpen(false); setCompanyName(""); setRole(""); }}>Cancel</Button>
+          <Button variant="contained" onClick={() => { setAddOpen(false); setCompanyName(""); setRole(""); }}>Add</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

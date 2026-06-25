@@ -3,7 +3,12 @@
 import { useState } from "react";
 import {
   Box,
+  Button,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   IconButton,
   InputAdornment,
   Paper,
@@ -35,8 +40,8 @@ const rows = [
     program: "BT-AE",
     cpi: 9.1,
     status: "Submitted",
-    r1In: "2025-07-21 17:55",
-    r1Out: "2025-07-21 18:22",
+    r1In: "2025-07-21T17:55",
+    r1Out: "2025-07-21T18:22",
     comments: "",
   },
   {
@@ -47,14 +52,31 @@ const rows = [
     program: "BT-MSE",
     cpi: 8.4,
     status: "Submitted",
-    r1In: "2025-07-21 17:55",
-    r1Out: "2025-07-21 18:22",
+    r1In: "2025-07-21T17:55",
+    r1Out: "2025-07-21T18:22",
     comments: "",
   },
 ];
 
+type RowType = (typeof rows)[0];
+
 export default function MagicSheetPage() {
   const [search, setSearch] = useState("");
+  const [editOpen, setEditOpen] = useState(false);
+  const [editR1In, setEditR1In] = useState("");
+  const [editR1Out, setEditR1Out] = useState("");
+  const [editComments, setEditComments] = useState("");
+  const [rollModalOpen, setRollModalOpen] = useState(false);
+  const [rollNumber, setRollNumber] = useState("");
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
+  const [emailId, setEmailId] = useState("");
+
+  const handleEditOpen = (row: RowType) => {
+    setEditR1In(row.r1In);
+    setEditR1Out(row.r1Out);
+    setEditComments(row.comments);
+    setEditOpen(true);
+  };
 
   const filteredRows = rows.filter((row) =>
     Object.values(row)
@@ -132,8 +154,8 @@ export default function MagicSheetPage() {
       width: 80,
       sortable: false,
       filterable: false,
-      renderCell: () => (
-        <IconButton size="small">
+      renderCell: (params) => (
+        <IconButton size="small" onClick={() => handleEditOpen(params.row as RowType)}>
           <EditIcon fontSize="small" />
         </IconButton>
       ),
@@ -186,10 +208,10 @@ export default function MagicSheetPage() {
                 }}
               />
               <div>
-            <IconButton color="primary">
+            <IconButton color="primary" onClick={() => setRollModalOpen(true)}>
             <AddIcon />
           </IconButton>
-            <IconButton color="primary">
+            <IconButton color="primary" onClick={() => setEmailModalOpen(true)}>
             <AddIcon />
           </IconButton>
           </div>
@@ -229,6 +251,78 @@ export default function MagicSheetPage() {
           </div>
         </Paper>
       </div>
+
+      {/* Edit Student Record Modal */}
+      <Dialog open={editOpen} onClose={() => setEditOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Edit Student Record</DialogTitle>
+        <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, pt: "16px !important" }}>
+          <TextField
+            label="R1 In Time"
+            type="datetime-local"
+            value={editR1In}
+            onChange={(e) => setEditR1In(e.target.value)}
+            slotProps={{ inputLabel: { shrink: true } }}
+            fullWidth
+          />
+          <TextField
+            label="R1 Out Time"
+            type="datetime-local"
+            value={editR1Out}
+            onChange={(e) => setEditR1Out(e.target.value)}
+            slotProps={{ inputLabel: { shrink: true } }}
+            fullWidth
+          />
+          <TextField
+            label="Comments"
+            multiline
+            rows={3}
+            value={editComments}
+            onChange={(e) => setEditComments(e.target.value)}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setEditOpen(false)}>Cancel</Button>
+          <Button variant="contained" onClick={() => setEditOpen(false)}>Save</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Add Student by Roll Number Modal */}
+      <Dialog open={rollModalOpen} onClose={() => setRollModalOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Add Student by Roll Number</DialogTitle>
+        <DialogContent sx={{ pt: "16px !important" }}>
+          <TextField
+            label="Roll Number"
+            required
+            value={rollNumber}
+            onChange={(e) => setRollNumber(e.target.value)}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => { setRollModalOpen(false); setRollNumber(""); }}>Cancel</Button>
+          <Button variant="contained" onClick={() => { setRollModalOpen(false); setRollNumber(""); }}>Add</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Add Student by Email Modal */}
+      <Dialog open={emailModalOpen} onClose={() => setEmailModalOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Add Student by Email</DialogTitle>
+        <DialogContent sx={{ pt: "16px !important" }}>
+          <TextField
+            label="Email ID"
+            type="email"
+            required
+            value={emailId}
+            onChange={(e) => setEmailId(e.target.value)}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => { setEmailModalOpen(false); setEmailId(""); }}>Cancel</Button>
+          <Button variant="contained" onClick={() => { setEmailModalOpen(false); setEmailId(""); }}>Add</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
