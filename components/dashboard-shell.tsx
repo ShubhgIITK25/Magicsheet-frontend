@@ -3,49 +3,49 @@
 import { ReactNode, useState } from "react";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import {
-  Drawer,
-  IconButton,
-  Box,
-} from "@mui/material";
+import { Box, Drawer, IconButton } from "@mui/material";
 
 import DashboardSidebar from "./dashboard-sidebar";
 
-export default function DashboardShell({
-  children,
-}: {
-  children: ReactNode;
-}) {
+const DRAWER_WIDTH = 280;
+
+export default function DashboardShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
 
-  const toggleDrawer = () => {
-    setOpen((prev) => !prev);
-  };
-
   return (
-    <>
-      <IconButton
-        onClick={toggleDrawer}
-          sx={{
-            position: "absolute",
-            top: 16,
-            left: 16,
-            zIndex: 10,
-          }}
-        >
-        <MenuIcon />
-      </IconButton>
-
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <Drawer
-        anchor="left"
-        open={open}
-        onClose={() => setOpen(false)}
+        variant="permanent"
+        sx={{
+          width: open ? DRAWER_WIDTH : 0,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: DRAWER_WIDTH,
+            transition: "transform 0.2s ease",
+            transform: open ? "translateX(0)" : `translateX(-${DRAWER_WIDTH}px)`,
+            overflowX: "hidden",
+          },
+        }}
       >
         <DashboardSidebar />
       </Drawer>
-  <Box
-   sx={{ height: "13vh" }} />
-      {children}
-    </>
+
+      <Box sx={{ flex: 1, minWidth: 0 }}>
+        <IconButton
+          onClick={() => setOpen((prev) => !prev)}
+          sx={{
+            position: "fixed",
+            top: 16,
+            left: open ? DRAWER_WIDTH + 8 : 16,
+            zIndex: 1300,
+            transition: "left 0.2s ease",
+          }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Box sx={{ height: "13vh" }} />
+        {children}
+      </Box>
+    </Box>
   );
 }

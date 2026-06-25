@@ -3,7 +3,12 @@
 import { useState } from "react";
 import {
   Box,
+  Button,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   IconButton,
   InputAdornment,
   Paper,
@@ -12,7 +17,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-
+import AddIcon from "@mui/icons-material/Add";
 
 const rows = [
   {
@@ -55,6 +60,9 @@ const rows = [
 
 export default function MagicSheetPage() {
   const [search, setSearch] = useState("");
+  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [companyName, setCompanyName] = useState("");
+  const [role, setRole] = useState("");
 
   const filteredRows = rows.filter((row) =>
     Object.values(row)
@@ -164,7 +172,7 @@ export default function MagicSheetPage() {
           <div className="p-6">
          
 
-            <div className="mb-4 flex justify-start">
+            <div className="mb-4 flex justify-between">
               <TextField
                 size="small"
                 placeholder="Search..."
@@ -183,6 +191,9 @@ export default function MagicSheetPage() {
                   },
                 }}
               />
+              <IconButton color="primary" onClick={() => setAddModalOpen(true)}>
+                <AddIcon />
+              </IconButton>
             </div>
 
             <Box sx={{ width: "100%" }}>
@@ -219,6 +230,31 @@ export default function MagicSheetPage() {
           </div>
         </Paper>
       </div>
+
+      {/* Add New Magic Sheet Modal */}
+      <Dialog open={addModalOpen} onClose={() => setAddModalOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Add New Magic Sheet</DialogTitle>
+        <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, pt: "16px !important" }}>
+          <TextField
+            label="Company Name"
+            required
+            value={companyName}
+            onChange={(e) => setCompanyName(e.target.value)}
+            fullWidth
+          />
+          <TextField
+            label="Role"
+            required
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => { setAddModalOpen(false); setCompanyName(""); setRole(""); }}>Cancel</Button>
+          <Button variant="contained" onClick={() => { setAddModalOpen(false); setCompanyName(""); setRole(""); }}>Add</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
