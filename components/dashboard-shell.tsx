@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode, useState } from "react";
-
+import { usePathname } from "next/navigation";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Box, Drawer, IconButton } from "@mui/material";
 
@@ -11,6 +11,12 @@ const DRAWER_WIDTH = 280;
 
 export default function DashboardShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isAuth = pathname.startsWith("/auth");
+
+  if (isAuth) {
+    return <>{children}</>;
+  }
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
