@@ -169,7 +169,7 @@ export default function RCDetailsPage() {
           size="small"
           onClick={() =>
             router.push(
-              `/rc/${params.id}/magicsheet/${params.row.id}`
+              `/apc/rc/${params.id}/magicsheet/${params.row.id}`
             )
           }
         >

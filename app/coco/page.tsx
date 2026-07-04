@@ -90,7 +90,7 @@ const columns: GridColDef[] = [
       <Chip
         label={params.value ? "ACTIVE" : "INACTIVE"}
         color={params.value ? "success" : "error"}
-        onClick={() => {router.push(`/rc/${params.row.id}`)}}
+        onClick={() => {router.push(`/coco/rc/${params.row.id}`)}}
         size="small"
       />
     ),
