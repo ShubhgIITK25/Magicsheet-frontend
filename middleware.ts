@@ -32,7 +32,7 @@ function decodeJwtPayload(token: string): Record<string, unknown> | null {
 function roleHomePath(role: string | null): string {
   const normalizedRole = normalizeRole(role);
 
-  if (normalizedRole === "admin") return "/coco";
+  if (normalizedRole === "coco") return "/coco";
   if (normalizedRole === "apc") return "/apc";
   if (normalizedRole === "opc") return "/opc";
   return "/auth";
