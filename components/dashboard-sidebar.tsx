@@ -59,8 +59,12 @@ const account = [
 ];
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/auth";
+    fetch("http://localhost:8080/api/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    }).finally(() => {
+      window.location.href = "/auth";
+    });
   };
 
   return (

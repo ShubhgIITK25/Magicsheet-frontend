@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { roleHomePath } from "@/lib/user_auth";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -20,30 +21,33 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // Assuming your Gin backend is running on 8080 with the /api prefix
-      const res = await fetch("http://localhost:8080/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+    const res = await fetch("http://localhost:8080/api/auth/login", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }), 
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.error || "Invalid credentials");
-      }
-
-      // Handle successful login (e.g., save token, redirect)
-      router.push("/dashboard"); 
-    } catch {
-      setError("Invalid email or password. Please try again.");
-    } finally {
-      setIsLoading(false);
+    if (!res.ok) {
+  
+      throw new Error(data.error || "Login failed"); 
     }
-  };
 
+    const role = data.role || null;
+    router.push(roleHomePath(role));
+    
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+    setError(message);
+  } finally {
+    setIsLoading(false);
+  }
+};
+  
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans text-gray-800">
       {/* Navbar */}
