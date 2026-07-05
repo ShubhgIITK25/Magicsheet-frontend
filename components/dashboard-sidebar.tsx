@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -19,37 +20,58 @@ import StarsIcon from "@mui/icons-material/Stars";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
+import { getLoginStatus } from "@/lib/user_auth";
 
 
 
 export default function DashboardSidebar() {
-const pathname = usePathname();
-const navigation = [
-  {
-    label: "Dashboard",
-    href: "/",
-    icon: <DashboardIcon />,
-  },
-  // if current page is rc/[rcid ] then only show below
-  
- ...(pathname.match(/^\/rc\/[^/]+$/)
-    ? [
-        {
-          label: "Master Magic Sheet",
-          href: `${pathname}/magicsheet`,
-          icon: <DashboardIcon />,
-        },
-      ]
-    : []),
-  {
-    label: "RAS Portal",
-    href: "https://placement.iitk.ac.in",
-    icon: <LaunchIcon />,
-    external: true,
-  },
-];
-// primary.dark
-const account = [
+  const pathname = usePathname();
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+
+    getLoginStatus().then(({ role }) => {
+      if (active) {
+        setUserRole(role);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const opcRcMatch = pathname?.match(/^\/opc\/rc\/([^/]+)(?:\/.*)?$/);
+  const opcRcBasePath = opcRcMatch ? `/opc/rc/${opcRcMatch[1]}` : null;
+  const showOpcMasterSheet = userRole === "opc" && Boolean(opcRcBasePath);
+
+  const navigation = [
+    {
+      label: "Dashboard",
+      href: "/",
+      icon: <DashboardIcon />,
+    },
+
+    ...(showOpcMasterSheet
+      ? [
+          {
+            label: "Master Magic Sheet",
+            href: `${opcRcBasePath}/mastermagicsheet`,
+            icon: <DashboardIcon />,
+          },
+        ]
+      : []),
+
+    {
+      label: "RAS Portal",
+      href: "https://placement.iitk.ac.in",
+      icon: <LaunchIcon />,
+      external: true,
+    },
+  ];
+
+  const account = [
 
   {
     label: "Credits",
