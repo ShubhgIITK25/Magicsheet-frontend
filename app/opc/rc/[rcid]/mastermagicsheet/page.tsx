@@ -53,6 +53,7 @@ export default function MagicSheetPage() {
       .then((res) => res.json())
       .then((payload) => {
         const data = Array.isArray(payload?.data) ? payload.data : [];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const mappedRows = data.map((row: any, index: number) => ({
           id: row.id ?? index + 1,
           rollNo: row.roll_number ?? "",
