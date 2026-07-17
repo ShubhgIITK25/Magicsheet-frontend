@@ -14,11 +14,21 @@ import {
   InputAdornment,
   Paper,
   TextField,
-  Tooltip,
+  Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
+const INK = "#455A64";
+const BRASS = "#A67C3D";
+const BRASS_DARK = "#6B4E23";
+const BRICK = "#A8433F";
+const BRICK_DARK = "#6B2A27";
+const PAGE_BG = "#EEF0F3";
+const HAIRLINE = "#D6DAE1";
+const Green = "#2E7D32";
 
 type Proforma = {
   id: number;
@@ -91,11 +101,6 @@ export default function RCDetailsPage() {
       headerName: "Company Name",
       minWidth: 220,
       flex: 1,
-      renderCell: (params) => (
-        <Tooltip title={params.value}>
-          <span>{params.value}</span>
-        </Tooltip>
-      ),
     },
     {
       field: "updated_at",
@@ -180,33 +185,104 @@ export default function RCDetailsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8">
-              <h1 className="text-4xl font-bold">
-            Intern 2026-27 Phase 1
-          </h1>
+    <Box sx={{ backgroundColor: PAGE_BG, minHeight: "100%" }}>
+      {/* Sticky letterhead */}
+      <Box
+        sx={{
+          position: "sticky",
+          top: 0,
+          zIndex: 20,
+          backgroundColor: INK,
+          px: { xs: 3, md: 5 },
+          py: 3,
+          borderBottom: `3px solid ${BRASS}`,
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+          <Typography
+            sx={{
+              fontFamily: "'Fraunces', Georgia, serif",
+              fontSize: { xs: 26, md: 32 },
+              fontWeight: 600,
+              color: "#fff",
+              letterSpacing: 0.3,
+              lineHeight: 1.2,
+            }}
+          >
+            Proforma
+          </Typography>
+        </Box>
+        <Typography
+          sx={{
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: 12,
+            color: BRASS,
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+          }}
+        >
+          Manage and view all proformas
+        </Typography>
+      </Box>
 
-        </div>
-<h2 className="text-2xl font-bold">Proforma</h2>
+      <Box sx={{ p: { xs: 3, md: 5 } }}>
+        <Box
+          sx={{
+            mb: 2,
+            display: "flex",
+            alignItems: "baseline",
+            gap: 1.5,
+            borderBottom: `1px solid ${HAIRLINE}`,
+            pb: 1.5,
+          }}
+        >
+          <Typography
+            sx={{
+              fontFamily: "'Fraunces', Georgia, serif",
+              fontSize: 22,
+              fontWeight: 600,
+              color: INK,
+            }}
+          >
+            Companies
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: 12,
+              color: "text.secondary",
+            }}
+          >
+            {rows.length} entries on record
+          </Typography>
+        </Box>
+
         <Paper
           elevation={0}
           sx={{
-            border: "1px solid #e5e7eb",
-            borderRadius: 3,
-            p: 2,
+            p: { xs: 2, md: 3 },
+            borderRadius: "6px",
+            border: `1px solid ${HAIRLINE}`,
+            backgroundColor: "#fff",
           }}
         >
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <TextField
               size="small"
               placeholder="Search company..."
-              sx={{ width: 320 }}
+              sx={{
+                width: { xs: "100%", md: 320 },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "4px",
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: 13,
+                },
+              }}
               slotProps={{
                 input: {
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SearchIcon fontSize="small" />
+                      <SearchIcon fontSize="small" sx={{ color: BRASS }} />
                     </InputAdornment>
                   ),
                 },
@@ -217,44 +293,75 @@ export default function RCDetailsPage() {
             </IconButton>
           </div>
 
-          <Box sx={{ width: "100%" }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              disableRowSelectionOnClick
-              pageSizeOptions={[5, 10, 25]}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 5,
-                    page: 0,
-                  },
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            autoHeight
+            rowHeight={64}
+            disableRowSelectionOnClick
+            pageSizeOptions={[5, 10, 25]}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
+                  page: 0,
                 },
-              }}
-              sx={{
-                border: 0,
-
-                "& .MuiDataGrid-columnHeaders": {
-                  backgroundColor: "#f8fafc",
-                  fontWeight: 600,
-                },
-
-                "& .MuiDataGrid-row:hover": {
-                  backgroundColor: "#f8fafc",
-                },
-
-                "& .MuiDataGrid-cell": {
-                  borderColor: "#f1f5f9",
-                },
-              }}
-            />
-          </Box>
+              },
+            }}
+            sx={{
+              border: 0,
+              fontFamily: "'IBM Plex Sans', sans-serif",
+              "& .MuiDataGrid-columnHeaders, & .MuiDataGrid-cell": {
+                display: "flex",
+                alignItems: "center",
+              },
+              "& .MuiDataGrid-columnHeaders": {
+                borderBottom: `2px solid ${INK}`,
+              },
+              "& .MuiDataGrid-columnHeaderTitle": {
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: INK,
+              },
+              "& .MuiDataGrid-cell": {
+                borderColor: HAIRLINE,
+                overflow: "visible",
+              },
+              "& .MuiDataGrid-cell:focus": { outline: "none" },
+              "& .MuiDataGrid-cell:focus-within": { outline: "none" },
+              "& .MuiDataGrid-row": {
+                overflow: "visible",
+              },
+              "& .MuiDataGrid-row:hover": {
+                backgroundColor: "#FAF8F3",
+              },
+              "& .MuiDataGrid-footerContainer": {
+                borderTop: `1px solid ${HAIRLINE}`,
+                fontFamily: "'IBM Plex Mono', monospace",
+              },
+            }}
+          />
         </Paper>
-      </div>
+      </Box>
 
-      <Dialog open={addOpen} onClose={() => setAddOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>Add New Magic Sheet</DialogTitle>
-        <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, pt: "16px !important" }}>
+      <Dialog
+        open={addOpen}
+        onClose={() => setAddOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Add New Proforma</DialogTitle>
+        <DialogContent
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            pt: "16px !important",
+          }}
+        >
           <TextField
             label="Company Name"
             required
@@ -271,10 +378,27 @@ export default function RCDetailsPage() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => { setAddOpen(false); setCompanyName(""); setRole(""); }}>Cancel</Button>
-          <Button variant="contained" onClick={() => { setAddOpen(false); setCompanyName(""); setRole(""); }}>Add</Button>
+          <Button
+            onClick={() => {
+              setAddOpen(false);
+              setCompanyName("");
+              setRole("");
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setAddOpen(false);
+              setCompanyName("");
+              setRole("");
+            }}
+          >
+            Add
+          </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Box>
   );
 }

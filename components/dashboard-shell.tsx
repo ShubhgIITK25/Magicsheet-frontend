@@ -41,15 +41,15 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
           onClick={() => setOpen((prev) => !prev)}
           sx={{
             position: "fixed",
-            top: 16,
-            left: open ? DRAWER_WIDTH + 8 : 16,
+            top: 19,
+            left: open ? DRAWER_WIDTH + 8 : 0,
+            color: "white",
             zIndex: 1300,
             transition: "left 0.2s ease",
           }}
         >
           <MenuIcon />
         </IconButton>
-        <Box sx={{ height: "13vh" }} />
         {children}
       </Box>
     </Box>
